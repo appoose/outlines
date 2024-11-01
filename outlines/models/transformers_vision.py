@@ -46,6 +46,13 @@ class TransformersVision(Transformers):
         inputs = self.processor(
             text=prompts, images=media, padding=True, return_tensors="pt"
         ).to(self.model.device)
+        
+        inputs["pixel_values"] = inputs["pixel_values"].to(self.model.dtype)
+        inputs = {k: v.to(self.model.device) for k, v in inputs.items()}
+
+
+        
+        
 
         generation_kwargs = self._get_generation_kwargs(
             prompts,
